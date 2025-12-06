@@ -1,6 +1,7 @@
 package com.santosgo.marvelheroescompose.ui.components
 
 import android.util.Log
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -27,12 +28,12 @@ import com.santosgo.marvelheroescompose.model.Hero
 import com.santosgo.mavelheroes.data.Datasource
 
 @Composable
-fun HeroCard(hero: Hero) {
+fun HeroCard(hero: Hero, onClick: () -> Unit) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(8.dp),
-
+            .padding(8.dp)
+            .clickable { onClick() },
         shape = MaterialTheme.shapes.medium
     ) {
         Row(

@@ -13,4 +13,5 @@
     <string name="marvel_fav_list">Marvel fav Lista</string>
     <string name="hero_image_desc">hero_image_desc</string>
     <string name="hero_not_found">Heroe no encontrado</string>
+    <string name="back">Volver</string>
 </resources>
