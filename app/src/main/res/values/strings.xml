@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">MarvelHeroesCompose</string>
+    <string name="default_content_descrip">Imagen sin descripcion.</string>
+    <string name="marvel_hero_list">List of Heroes</string>
+    <string name="more_content_desc">Show description</string>
+    <string name="hero_description">Description: %s.</string>
+    <string name="profile_name">Perfil</string>
+    <string name="logout">Salir</string>
+    <string name="login">Login</string>
+    <string name="power">Poder</string>
+    <string name="intelligence">Inteligencia</string>
+    <string name="delete_desc">Eliminar_Desc</string>
+    <string name="marvel_fav_list">Marvel fav Lista</string>
+    <string name="hero_image_desc">hero_image_desc</string>
+    <string name="hero_not_found">Heroe no encontrado</string>
+</resources>
