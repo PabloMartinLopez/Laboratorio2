@@ -15,6 +15,7 @@ import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardColors
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -23,18 +24,26 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.example.compose.LocalExtendedColorScheme
 import com.santosgo.marvelheroescompose.R
 import com.santosgo.marvelheroescompose.model.Hero
 import com.santosgo.mavelheroes.data.Datasource
 
 @Composable
 fun HeroCard(hero: Hero, onClick: () -> Unit) {
+    val extendedColorScheme = LocalExtendedColorScheme.current
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .padding(8.dp)
             .clickable { onClick() },
-        shape = MaterialTheme.shapes.medium
+        shape = MaterialTheme.shapes.medium,
+        colors = CardColors(
+            containerColor = extendedColorScheme.customCard.color,
+            contentColor = extendedColorScheme.customCard.onColor,
+            disabledContainerColor = MaterialTheme.colorScheme.surfaceVariant,
+            disabledContentColor = MaterialTheme.colorScheme.onSurfaceVariant
+        )
     ) {
         Row(
             modifier = Modifier.padding(8.dp),
@@ -78,13 +87,13 @@ fun HeroCard(hero: Hero, onClick: () -> Unit) {
                             "Botón eliminar pulsado"
                         )
                     }, //incluir el héroe en favoritos
-                    modifier = Modifier.size(48.dp)
+                    modifier = Modifier.size(48.dp),
                 ) {
                     Icon(
                         imageVector = Icons.Default.FavoriteBorder,
                         modifier = Modifier.size(48.dp),
                         contentDescription = stringResource(R.string.delete_desc),
-                        tint = MaterialTheme.colorScheme.error
+                        tint = extendedColorScheme.customCard.colorContainer
                     )
                 }
                 // Botón de acción con ícono
@@ -96,7 +105,7 @@ fun HeroCard(hero: Hero, onClick: () -> Unit) {
                         imageVector = Icons.Default.KeyboardArrowDown,
                         modifier = Modifier.size(48.dp),
                         contentDescription = stringResource(R.string.more_content_desc),
-                        tint = MaterialTheme.colorScheme.primary
+                        tint = extendedColorScheme.customCard.colorContainer
                     )
                 }
             }
@@ -105,12 +114,20 @@ fun HeroCard(hero: Hero, onClick: () -> Unit) {
 }
 
 @Composable
-fun HeroCardLand(hero: Hero) {
+fun HeroCardLand(hero: Hero, onClick: () -> Unit) {
+    val extendedColorScheme = LocalExtendedColorScheme.current
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 8.dp, horizontal = 24.dp),
-        shape = MaterialTheme.shapes.large
+            .padding(vertical = 8.dp, horizontal = 24.dp)
+            .clickable { onClick() },
+        shape = MaterialTheme.shapes.large,
+        colors = CardColors(
+            containerColor = extendedColorScheme.customCard.color,
+            contentColor = extendedColorScheme.customCard.onColor,
+            disabledContainerColor = MaterialTheme.colorScheme.surfaceVariant,
+            disabledContentColor = MaterialTheme.colorScheme.onSurfaceVariant
+        )
     ) {
         Row(
             modifier = Modifier.padding(8.dp),
@@ -154,7 +171,7 @@ fun HeroCardLand(hero: Hero) {
                             imageVector = Icons.Filled.FavoriteBorder,
                             modifier = Modifier.size(48.dp),
                             contentDescription = stringResource(R.string.delete_desc),
-                            tint = MaterialTheme.colorScheme.error
+                            tint = extendedColorScheme.customCard.colorContainer
                         )
                     }
                 }
@@ -170,7 +187,7 @@ fun HeroCardLand(hero: Hero) {
 }
 
 @Composable
-fun FavHeroCard(hero: Hero) {
+fun FavHeroCard(hero: Hero, onClickClear: () -> Unit) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -213,7 +230,7 @@ fun FavHeroCard(hero: Hero) {
             Column(verticalArrangement = Arrangement.SpaceAround) {
                 // Botón de acción con ícono
                 IconButton(
-                    onClick = { Log.d("FavHeroCard", "Botón eliminar pulsado") }, //incluir el héroe en favoritos
+                    onClick = { onClickClear() },
                     modifier = Modifier.size(48.dp)
                 ) {
                     Icon(
@@ -241,7 +258,7 @@ fun FavHeroCard(hero: Hero) {
 }
 
 @Composable
-fun FavHeroCardLand(hero: Hero) {
+fun FavHeroCardLand(hero: Hero, onClickClear: () -> Unit) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -283,7 +300,7 @@ fun FavHeroCardLand(hero: Hero) {
                         style = MaterialTheme.typography.bodyMedium
                     )
                     IconButton(
-                        onClick = { Log.d("FavHeroCard", "Botón favorito pulsado") }, //incluir el héroe en favoritos
+                        onClick = { onClickClear() },
                         modifier = Modifier.size(48.dp)
                     ) {
                         Icon(

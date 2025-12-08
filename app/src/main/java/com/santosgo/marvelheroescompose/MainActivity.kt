@@ -12,6 +12,7 @@ import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
@@ -38,9 +39,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
 
         setContent {
-            MarvelHeroesComposeTheme(
-                dynamicColor = false,
-            ) {
+            MarvelHeroesComposeTheme {
                 MarvelHeroesApp()
             }
         }
@@ -50,7 +49,7 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun MarvelHeroesApp() {
     // Crear la lista de héroes y añadir duplicados para probar el desplazamiento
-    val heroes = Datasource.heroList()
+    val heroes = Datasource.getListXtimes(4)
     val windowSize = getWindowSizeClass(LocalContext.current as Activity)
     val navController = rememberNavController()
     val currentRoute by navController.currentBackStackEntryFlow
@@ -60,12 +59,10 @@ fun MarvelHeroesApp() {
     MarvelHeroesComposeTheme {
         Scaffold(
             modifier = Modifier.fillMaxSize(),
-            topBar = {
-            /* Aquí puedes agregar lógica dinámica para la top bar */
-            },
-            bottomBar = {
-                /* Aquí puedes agregar lógica dinámica para la bottom bar */
-                BottomNavigationBar(navController, currentRoute)
+            topBar = { /* Aquí puedes agregar lógica dinámica para la top bar */ },
+            bottomBar = { /* Aquí puedes agregar lógica dinámica para la bottom bar */
+                if(windowSize == WindowWidthSizeClass.Compact && currentRoute?.contains("hero_detail") == false)
+                    BottomNavigationBar(navController, currentRoute)
             },
             floatingActionButton = { } // Lógica del FAB si aplica
         ) { innerPadding ->
@@ -76,30 +73,39 @@ fun MarvelHeroesApp() {
             ) {
                 composable("hero_list") {
                     when (windowSize) {
-                        WindowWidthSizeClass.Compact -> { HeroListCompactScreen(heroes, navController, Modifier.padding(innerPadding)) }
-                        else -> { HeroListMedExpScreen(heroes, navController, Modifier.padding(innerPadding)) }
+                        WindowWidthSizeClass.Compact -> { HeroListCompactScreen(heroes, navController, Modifier.padding(horizontal = 8.dp)) }
+                        else -> { HeroListMedExpScreen(heroes, navController, Modifier.padding(horizontal = 8.dp)) }
                     }
                 }
                 composable("fav_list") {
+                    val favList = remember { Datasource.getSomeRandHeroes(4) }
                     when (windowSize) {
-                        WindowWidthSizeClass.Compact -> { FavListCompactScreen(heroes, Modifier.padding(innerPadding)) }
-                        else -> { FavListMedExpScreen(heroes, Modifier.padding(innerPadding)) }
+                        WindowWidthSizeClass.Compact -> { FavListCompactScreen(favList,  Modifier.padding(horizontal = 8.dp)) }
+                        else -> { FavListMedExpScreen(favList,  Modifier.padding(horizontal = 8.dp)) }
                     }
                 }
                 composable("profile") {
                     when (windowSize) {
-                        WindowWidthSizeClass.Compact -> { ProfileCompactScreen(Modifier.padding(innerPadding)) }
-                        else -> { ProfileCompactScreen(Modifier.padding(innerPadding)) }
+                        WindowWidthSizeClass.Compact -> { ProfileCompactScreen(Modifier.padding(horizontal = 8.dp)) }
+                        else -> { ProfileCompactScreen(Modifier.padding(horizontal = 8.dp)) }
                     }
                 }
                 composable("hero_detail/{hero_name}") {
                     val heroName = it.arguments?.getString("hero_name") ?: "NoName"
                     when (windowSize) {
-                        WindowWidthSizeClass.Compact -> { HeroDetailCompactScreen(heroName, navController, Modifier.padding(innerPadding)) }
-                        else -> { HeroDetailCompactScreen(heroName, navController, Modifier.padding(innerPadding)) }
+                        WindowWidthSizeClass.Compact -> { HeroDetailCompactScreen(heroName, navController, Modifier.padding(horizontal = 8.dp)) }
+                        else -> { HeroDetailCompactScreen(heroName, navController, Modifier.padding(horizontal = 8.dp)) }
                     }
                 }
             }
         }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun MarvelHeroesAppPreview() {
+    MarvelHeroesComposeTheme {
+        MarvelHeroesApp()
     }
 }

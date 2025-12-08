@@ -99,8 +99,8 @@ object Datasource {
     }
 
     val getSomeRandHeroes : (Int) -> MutableList<Hero> = { num ->
-        val heroes = heroList()
-        if(num <= heroes.size) heroes.subList(0, num)
+        var heroes = heroList()
+        if(num <= heroes.size) heroes = heroes.subList(0, num)
         heroes
     }
 

@@ -19,6 +19,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.example.compose.LocalExtendedColorScheme
 import com.santosgo.marvelheroescompose.R
 
 @Composable
@@ -101,13 +102,15 @@ fun StandardTextComp(text: String, modifier: Modifier = Modifier, style  : andro
 
 @Composable
 fun MedHeaderComp(title: String) {
+    val extendedColorScheme = LocalExtendedColorScheme.current
     Surface(
         modifier = Modifier
             .padding(horizontal = 8.dp)
             .fillMaxWidth(),
         shadowElevation = 2.dp,
         shape = MaterialTheme.shapes.medium,
-        color = Color.Red
+        color = extendedColorScheme.customHeader.color,
+        contentColor = extendedColorScheme.customHeader.onColor
     ) {
         Box(
             modifier = Modifier
@@ -117,8 +120,7 @@ fun MedHeaderComp(title: String) {
             Text(
                 modifier = Modifier.padding(8.dp),
                 text = title,
-                style = MaterialTheme.typography.headlineMedium,
-                color = Color.White
+                style = MaterialTheme.typography.headlineMedium
             )
         }
     }
